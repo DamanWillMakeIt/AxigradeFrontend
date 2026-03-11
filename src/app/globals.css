@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --theme-bg: #ffffff;
+  --theme-fg: #000000;
+  --theme-border: #000000;
+  --theme-invert-border: #ffffff;
+  --theme-hover-bg: #000000;
+  --theme-hover-fg: #ffffff;
+}
+
+[data-theme="light"] {
+  --theme-bg: #ffffff;
+  --theme-fg: #000000;
+  --theme-border: #000000;
+  --theme-invert-border: #ffffff;
+  --theme-hover-bg: #000000;
+  --theme-hover-fg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --theme-bg: #000000;
+  --theme-fg: #ffffff;
+  --theme-border: #ffffff;
+  --theme-invert-border: #000000;
+  --theme-hover-bg: #ffffff;
+  --theme-hover-fg: #000000;
+}
+
+@layer base {
+  ::selection {
+    background: var(--theme-fg);
+    color: var(--theme-bg);
+  }
+
+  input,
+  textarea,
+  select {
+    border-radius: 0;
+  }
+
+  button {
+    border-radius: 0;
+  }
+}
+
+@layer components {
+  .brutal-kicker {
+    @apply font-mono text-xs uppercase tracking-[0.35em];
+  }
+
+  .brutal-title {
+    @apply font-display leading-none;
+  }
+
+  .brutal-panel {
+    @apply bg-theme-bg text-theme-fg border border-theme-border shadow-brutal;
+  }
+
+  .brutal-panel-flat {
+    @apply bg-theme-bg text-theme-fg border border-theme-border;
+  }
+
+  .brutal-invert {
+    @apply bg-theme-hover-bg text-theme-hover-fg border border-theme-invert-border;
+  }
+
+  .brutal-link {
+    @apply underline underline-offset-4 decoration-1 transition-none hover:bg-theme-hover-bg hover:text-theme-hover-fg;
+  }
+
+  .brutal-input {
+    @apply w-full bg-transparent border-0 border-b border-theme-border px-0 py-3 font-body focus:outline-none focus:ring-0;
+    @apply placeholder:font-mono placeholder:text-xs placeholder:uppercase placeholder:tracking-[0.35em] placeholder:text-theme-fg;
+  }
+
+  .brutal-btn {
+    @apply inline-flex items-center justify-center border-2 border-theme-border bg-theme-bg text-theme-fg;
+    @apply font-mono text-xs uppercase tracking-[0.35em] px-6 py-4 shadow-brutal transition-none;
+    @apply hover:bg-theme-hover-bg hover:text-theme-hover-fg;
+    @apply active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+    @apply disabled:cursor-not-allowed disabled:border-dashed disabled:shadow-none;
+  }
+
+  .brutal-navlink {
+    @apply flex items-center gap-3 px-4 py-3 font-mono text-sm uppercase tracking-[0.22em];
+    @apply border border-transparent transition-none;
+    @apply hover:bg-theme-hover-bg hover:text-theme-hover-fg hover:border-theme-border;
+  }
+}

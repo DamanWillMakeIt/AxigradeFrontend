@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("user") // "user" | "admin"
+  createdAt DateTime  @default(now())
+
+  projects       Project[]
+  seoApiKey      SeoApiKey?
+  architectApiKey ArchitectApiKey?
+}
+
+model Project {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  architect         Architect?
+  clickEngineer     ClickEngineer?
+  algorithmWhisperer AlgorithmWhisperer?
+  qualityCritic     QualityCritic?
+  visualHook        VisualHook?
+}
+
+model Architect {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @unique @db.ObjectId
+  project   Project  @relation(fields: [projectId], references: [id])
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model ClickEngineer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @unique @db.ObjectId
+  project   Project  @relation(fields: [projectId], references: [id])
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model AlgorithmWhisperer {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @unique @db.ObjectId
+  project   Project  @relation(fields: [projectId], references: [id])
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model QualityCritic {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @unique @db.ObjectId
+  project   Project  @relation(fields: [projectId], references: [id])
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model VisualHook {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String   @unique @db.ObjectId
+  project   Project  @relation(fields: [projectId], references: [id])
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+model SeoApiKey {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  key       String
+  agent     String   @default("seo-tags")
+  credits   Int      @default(25)
+  callCount Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ArchitectApiKey {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  key       String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
